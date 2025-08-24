@@ -1,0 +1,43 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: helpdesk_mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: ./backend
+    container_name: helpdesk_api
+    env_file:
+      - ./backend/.env
+    environment:
+      NODE_ENV: production
+    depends_on:
+      mongo:
+        condition: service_healthy
+    expose:
+      - "3001"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/api/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build: ./frontend
+    container_name: helpdesk_web
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
