@@ -13,9 +13,8 @@ describe('validate.js (Zod schemas)', () => {
     expect(r.success).toBe(false)
   })
 
-  // ⬇️ เปลี่ยนเป็นตรวจว่าขาด contact แล้วต้อง fail
   test('createTicketSchema: missing contact should fail', () => {
-    const input = { title: 'Test', description: 'Desc' } // ไม่มี contact
+    const input = { title: 'Test', description: 'Desc' }
     const r = createTicketSchema.safeParse(input)
     expect(r.success).toBe(false)
   })
