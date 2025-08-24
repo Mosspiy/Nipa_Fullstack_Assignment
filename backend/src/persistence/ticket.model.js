@@ -16,6 +16,6 @@ const TicketSchema = new mongoose.Schema(
 )
 
 TicketSchema.index({ status: 1,updatedAt: -1 })
-TicketSchema.index({ title: 'text', description: 'text' }) // สำหรับทำ search option
+TicketSchema.index({ title: 'text', description: 'text' }) 
 
 export const Ticket = mongoose.model('Ticket', TicketSchema)

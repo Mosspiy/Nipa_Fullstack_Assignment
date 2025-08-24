@@ -4,3 +4,4 @@ export const statusColor = {
     resolved: 'bg-green-400',
     rejected: 'bg-red-400'
 }
+console.log("sad \n")

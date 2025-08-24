@@ -15,7 +15,7 @@ app.use(morgan('dev'))
 
 app.use('/api', routes)
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs))
-
+if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'))
 app.use((req, res) => res.status(404).json({ message: 'Not found' }))
 
 
